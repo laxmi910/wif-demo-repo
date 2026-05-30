@@ -1,0 +1,34 @@
+name: Workload Identity Federation Demo
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  authenticate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - id: auth
+        name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: projects/178794888216/locations/global/workloadIdentityPools/github-action/providers/github-provider
+          service_account: wif-demo-sa@second-jet-496600-v0.iam.gserviceaccount.com
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Verify Authentication
+        run: |
+          gcloud config set project second-jet-496600-v0
+          gcloud auth list
+          gcloud projects describe second-jet-496600-v0
