@@ -1,0 +1,29 @@
+name: WIF Demo
+
+on:
+workflow_dispatch:
+
+permissions:
+id-token: write
+contents: read
+
+jobs:
+test-wif:
+runs-on: ubuntu-latest
+
+```
+steps:
+  - uses: actions/checkout@v4
+
+  - uses: google-github-actions/auth@v2
+    with:
+      workload_identity_provider: projects/178794888216/locations/global/workloadIdentityPools/wif-demo-pool/providers/demo-provider
+      service_account: wif-demo-sa@second-jet-496600-v0.iam.gserviceaccount.com
+
+  - uses: google-github-actions/setup-gcloud@v2
+
+  - name: Verify Identity
+    run: |
+      gcloud auth list
+      gcloud storage ls
+```
