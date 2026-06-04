@@ -1,5 +1,5 @@
 resource "google_storage_bucket" "my-bucket" {
-  name          = "bkt-demo-0090990"
+  name          = "bkt-wif-demo-today78"
   location      = "US-CENTRAL1"
   force_destroy = true
 
